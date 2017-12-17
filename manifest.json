@@ -1,7 +1,7 @@
 {
   "name": "One Tab per Job for Matecat",
   "short_name": "One Tab",
-  "version": "1.0.0.0",
+  "version": "1.0.0.2",
   "description": "Reuses Chrome tab for existing Matecat job when called from ApSIC Xbench",
   "background": {
     "scripts": ["background.js"],
