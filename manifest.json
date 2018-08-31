@@ -1,8 +1,8 @@
 {
-  "name": "One Tab for Matecat and Smartcat",
+  "name": "One Tab for Matecat, Smartcat and Lingotek",
   "short_name": "One Tab",
-  "version": "1.0.0.4",
-  "description": "Reuses Chrome tab for existing Matecat or Smartcat job when called from ApSIC Xbench",
+  "version": "1.0.0.5",
+  "description": "Reuses Chrome tab for existing Matecat, Smartcat or Lingotek job when called from ApSIC Xbench",
   "background": {
     "scripts": ["background.js"],
     "persistent": false

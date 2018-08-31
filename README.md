@@ -1,5 +1,5 @@
-# One Tab per Job for Matecat and Smartcat
-This Chrome extension ensures that the existing Chrome tab of a [Matecat](https://www.matecat.com) or a [Smartcat](https://www.smartcat.ai) job is reused when chosing **Edit Segment (Ctrl+E)** from [ApSIC Xbench](http://www.xbench.net) to edit a translation segment of such Matecat or Smartcat job.
+# One Tab per Job for Matecat, Smartcat, and Lingotek
+This Chrome extension ensures that the existing Chrome tab of a [Matecat](https://www.matecat.com), [Smartcat](https://www.smartcat.ai) or [Lingotek](https://www.lingotek.com) job is reused when chosing **Edit Segment (Ctrl+E)** from [ApSIC Xbench](http://www.xbench.net) to edit a translation segment of such Matecat or Smartcat job.
 
 It avoids the clutter of tab proliferation as you repeteadly choose **Edit Segment** from Xbench and, most importantly, it also avoids running out of sockets against the Matecat cloud server when the user has opened too many Matecat tabs, which appears to be a hang (the user gets a blank page until she closes another Matecat tab).
 
