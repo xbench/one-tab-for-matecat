@@ -1,10 +1,10 @@
 const MATECAT_REGEX = "/(translate|revise)/[^/]+/[a-zA-Z-]+/[0-9]+-[0-9a-z]+#[0-9]+$";
 const SMARTCAT_REGEX = "smartcat\.ai/editor\?.*DocumentId=[0-9]+.*LanguageId=[0-9]+.*SegmentIndex=";
-const LINGOTEK_REGEX = "/workbench/task/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/segment/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+const LINGOTEK_REGEX = "/workbench/task/[0-9a-f\-]+/segment/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
 
 const MATECAT_SEGMENT_LABEL = "#";
 const SMARTCAT_SEGMENT_LABEL = "&SegmentIndex=";
-const LINGOTEK_SEGMENT_LABEL = "/segment/";
+const LINGOTEK_SEGMENT_LABEL = "/task/";
 
 function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel) {
     var regex = new RegExp(pattern);
