@@ -1,5 +1,5 @@
 const MATECAT_REGEX = "/(translate|revise)/[^/]+/[a-zA-Z-]+/[0-9]+-[0-9a-z]+#[0-9]+$";
-const SMARTCAT_REGEX = "smartcat\.ai/editor\?.*DocumentId=[0-9]+.*LanguageId=[0-9]+.*SegmentIndex=";
+const SMARTCAT_REGEX = "smartcat\.ai/editor\?.*DocumentId=[0-9a-f]+.*LanguageId=[0-9]+";
 const LINGOTEK_REGEX = "/workbench/task/[0-9a-f\-]+/segment/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
 
 const MATECAT_SEGMENT_LABEL = "#";
