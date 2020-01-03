@@ -32,11 +32,27 @@ function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel, killOriginal
     return false;
 }
 
-chrome.tabs.onCreated.addListener(function(newTab) {
-    chrome.tabs.getAllInWindow(newTab.windowId, function(tabs) {
-        if (HasPatternThenProcess(newTab, tabs, MATECAT_REGEX, MATECAT_SEGMENT_LABEL, false)) return;
-        if (HasPatternThenProcess(newTab, tabs, SMARTCAT_REGEX, SMARTCAT_SEGMENT_LABEL, false)) return;
-        if (HasPatternThenProcess(newTab, tabs, LINGOTEK_REGEX, LINGOTEK_SEGMENT_LABEL, false)) return;
-        if (HasPatternThenProcess(newTab, tabs, CROWDIN_REGEX, CROWDIN_SEGMENT_LABEL, true)) return;
+lastId = -1;
+
+function reuseExistingEditor(tab) {
+    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+        if (HasPatternThenProcess(tab, tabs, MATECAT_REGEX, MATECAT_SEGMENT_LABEL, false)) return;
+        if (HasPatternThenProcess(tab, tabs, SMARTCAT_REGEX, SMARTCAT_SEGMENT_LABEL, false)) return;
+        if (HasPatternThenProcess(tab, tabs, LINGOTEK_REGEX, LINGOTEK_SEGMENT_LABEL, false)) return;
+        if (HasPatternThenProcess(tab, tabs, CROWDIN_REGEX, CROWDIN_SEGMENT_LABEL, true)) return;
     });
+    lastId = -1;
+}
+
+chrome.tabs.onCreated.addListener(function(newTab) {
+    lastId = newTab.id;
+    if (newTab.url && (newTab.url != "")) {
+        reuseExistingEditor(newTab);
+    }
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
+    if ((tabId == lastId) && (info.url)) {
+        reuseExistingEditor(tab);
+    }
 });
