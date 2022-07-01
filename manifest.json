@@ -1,8 +1,8 @@
 {
-  "name": "One Tab Extension",
-  "short_name": "One Tab",
-  "version": "1.0.0.10",
-  "description": "Reuses Chrome tab for existing Matecat, Smartcat, Lingotek or Crowdin job when called from ApSIC Xbench",
+  "name": "In Progress Extension",
+  "short_name": "In Progress",
+  "version": "1.0.0.0",
+  "description": "Changes Smartling link to In Progress",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
