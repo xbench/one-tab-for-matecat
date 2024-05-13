@@ -46,13 +46,13 @@ function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel, killOriginal
 lastId = -1;
 
 function reuseExistingEditor(tab) {
-    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+	chrome.tabs.query({ windowId: tab.windowId }, function(tabs) {
         if (HasPatternThenProcess(tab, tabs, MATECAT_REGEX, MATECAT_SEGMENT_LABEL, false, true)) return;
         if (HasPatternThenProcess(tab, tabs, SMARTCAT_REGEX, SMARTCAT_SEGMENT_LABEL, false, false)) return;
         if (HasPatternThenProcess(tab, tabs, LINGOTEK_REGEX, LINGOTEK_SEGMENT_LABEL, false, true)) return;
         if (HasPatternThenProcess(tab, tabs, CROWDIN_REGEX, CROWDIN_SEGMENT_LABEL, true, true)) return;
     });
-    lastId = -1;
+	lastId = -1;
 }
 
 chrome.tabs.onCreated.addListener(function(newTab) {
