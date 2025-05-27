@@ -4,21 +4,20 @@ const LINGOTEK_REGEX = "/workbench/task/[0-9a-f\-]+/segment/[0-9a-f]{8}-[0-9a-f]
 const CROWDIN_REGEX = "crowdin\.com/translate/.*#";
 
 const MATECAT_SEGMENT_LABEL = "#";
-const SMARTCAT_SEGMENT_LABEL = "&segment";
 const LINGOTEK_SEGMENT_LABEL = "/task/";
 const CROWDIN_SEGMENT_LABEL = "#";
 
 function IsSameDocument(existingTabPrefix, newTabPrefix, segmentLabel, caseSensitive) {
     if (caseSensitive) {
-		var leftText = existingTabPrefix;
-		var rightText = newTabPrefix;
-		var label = segmentLabel;
+        var leftText = existingTabPrefix;
+        var rightText = newTabPrefix;
+        var label = segmentLabel;
     } else {
-		var leftText = existingTabPrefix.toLowerCase();
-		var rightText = newTabPrefix.toLowerCase();
-		var label = segmentLabel.toLowerCase();
-	}
-	return leftText.split(label)[0] === rightText.split(label)[0];
+        var leftText = existingTabPrefix.toLowerCase();
+        var rightText = newTabPrefix.toLowerCase();
+        var label = segmentLabel.toLowerCase();
+    }
+    return leftText.split(label)[0] === rightText.split(label)[0];
 }
 
 function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel, killOriginalTab, caseSensitive) {
@@ -31,11 +30,11 @@ function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel, killOriginal
             }
         });
         if (duplicateTab) {
-        	if (killOriginalTab) {
-        		chrome.tabs.remove(duplicateTab.id);
+            if (killOriginalTab) {
+                chrome.tabs.remove(duplicateTab.id);
             } else {
-            	chrome.tabs.remove(newTab.id);
-            	chrome.tabs.update(duplicateTab.id, {"selected": true, "url": newTab.url});
+                chrome.tabs.remove(newTab.id);
+                chrome.tabs.update(duplicateTab.id, {"selected": true, "url": newTab.url});
             }
         }
         return true;
@@ -43,16 +42,39 @@ function HasPatternThenProcess(newTab, tabs, pattern, segmentLabel, killOriginal
     return false;
 }
 
+function HasSmartcatPatternThenProcess(newTab, tabs) {
+    var regex = new RegExp(SMARTCAT_REGEX);
+    if (regex.test(newTab.url)) {
+        var duplicateTab = null;
+        var newDocumentId = /[Dd]ocumentId=([0-9a-f]+)/.exec(newTab.url)[1];
+        tabs.forEach(function(otherTab) {
+            if ((otherTab.id !== newTab.id) && (otherTab.url)) {
+                var otherDocumentIdArray = /[Dd]ocumentId=([0-9a-f]+)/.exec(otherTab.url);
+                if ((otherDocumentIdArray != null) && (newDocumentId === otherDocumentIdArray[1])) {
+                    duplicateTab = otherTab;
+                }
+            }
+        });
+        if (duplicateTab) {
+          chrome.tabs.remove(newTab.id);
+          chrome.tabs.update(duplicateTab.id, {"selected": true, "url": newTab.url});
+        }
+        return true;
+    }
+    return false;
+}
+
+
 lastId = -1;
 
 function reuseExistingEditor(tab) {
-	chrome.tabs.query({ windowId: tab.windowId }, function(tabs) {
+    chrome.tabs.query({ windowId: tab.windowId }, function(tabs) {
         if (HasPatternThenProcess(tab, tabs, MATECAT_REGEX, MATECAT_SEGMENT_LABEL, false, true)) return;
-        if (HasPatternThenProcess(tab, tabs, SMARTCAT_REGEX, SMARTCAT_SEGMENT_LABEL, false, false)) return;
         if (HasPatternThenProcess(tab, tabs, LINGOTEK_REGEX, LINGOTEK_SEGMENT_LABEL, false, true)) return;
         if (HasPatternThenProcess(tab, tabs, CROWDIN_REGEX, CROWDIN_SEGMENT_LABEL, true, true)) return;
+        if (HasSmartcatPatternThenProcess(tab, tabs)) return;
     });
-	lastId = -1;
+    lastId = -1;
 }
 
 chrome.tabs.onCreated.addListener(function(newTab) {
